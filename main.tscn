@@ -1,3 +1,34 @@
 [gd_scene format=3 uid="uid://bu3u1i5e8gmw8"]
 
 [node name="Node2D" type="Node2D"]
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 223.0
+offset_bottom = 72.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/HBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "HOST
+"
+
+[node name="Button2" type="Button" parent="Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "JOIN"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Panel/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "1.213.123.45"
+
+[node name="LineEdit" type="LineEdit" parent="Panel/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
