@@ -19,6 +19,7 @@ enum spaces {
 #Variables related to the board and size
 @export var boardHeight = 30
 @export var boardWidth = 30
+var tileSize = 50
 var board = create2dArray(boardHeight,boardWidth)
 
 #For updating different location during the game loop
