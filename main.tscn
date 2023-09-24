@@ -1,34 +1,47 @@
-[gd_scene format=3 uid="uid://bu3u1i5e8gmw8"]
+[gd_scene load_steps=2 format=3 uid="uid://bu3u1i5e8gmw8"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_da88u"]
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_da88u")
 
-[node name="Panel" type="Panel" parent="."]
-offset_right = 223.0
-offset_bottom = 72.0
+[node name="PanelContainer" type="PanelContainer" parent="."]
+offset_right = 146.0
+offset_bottom = 66.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="Panel/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Host Button" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "HOST
 "
 
-[node name="Button2" type="Button" parent="Panel/HBoxContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "JOIN"
+text = "HOSTING IP"
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="Panel/HBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Panel/HBoxContainer/VBoxContainer2"]
+[node name="Join Button" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-text = "1.213.123.45"
+text = " JOIN "
 
-[node name="LineEdit" type="LineEdit" parent="Panel/HBoxContainer/VBoxContainer2"]
+[node name="LineEdit" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "IP to Join"
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Host Button" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/Join Button" to="." method="_on_join_button_pressed"]
