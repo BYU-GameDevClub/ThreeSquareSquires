@@ -7,21 +7,13 @@ var multi_peer = ENetMultiplayerPeer.new()
 @onready var lbl = $PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HostIPLabel
 @onready var portTxt = $PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/LineEdit
 # Called when the node enters the scene tree for the first time.
-var game
-var is_host = false
-func _ready():
-	game = preload("res://game.tscn").instantiate()
-	add_sibling.call_deferred(game)
-	game.visible = false
-	pass # Replace with function body.
-
-
+var players = []
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
 
-func _exit_tree():
-	if is_host:
+func on_quit():
+	if multiplayer.is_server():
 		upnp.delete_port_mapping(4242,"UPD")
 		upnp.delete_port_mapping(4242,"TCP")
 
@@ -33,8 +25,8 @@ func _get_port_num():
 
 func _on_host_button_pressed():
 	var port = _get_port_num()
-	is_host = TryUPNP(port)
-	multi_peer.create_server(port)
+	var is_host = TryUPNP(port)
+	multi_peer.create_server(port, 2)
 	multiplayer.multiplayer_peer = multi_peer
 	multi_peer.peer_connected.connect(func(id): add_player_character(id))
 	add_player_character()
@@ -64,11 +56,18 @@ func TryUPNP(port:int):
 	print(lbl.text)
 	return true
 
-
+@rpc("call_local")
+func StartGame(playerInfo):
+	print('starting the game...')
+	var game = preload("res://game.tscn").instantiate()
+	add_sibling(game)
+	for id in playerInfo:
+		var player = preload("res://player.tscn").instantiate()
+		player.name = str(id);
+		game.add_child(player)
+	call_deferred("free")
+	
 func add_player_character(id=1):
 	print('%d joined' % id)
-	visible = false
-	var player = preload("res://player.tscn").instantiate()
-	player.name = str(id);
-	game.add_child(player)
-	game.visible = true
+	players.append(id)
+	if len(players) == 2: rpc("StartGame", players)

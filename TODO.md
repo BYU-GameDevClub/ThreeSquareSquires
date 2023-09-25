@@ -6,7 +6,7 @@
 = [ ] Add a Lobby
 - [X] Confirm Network Communication
 - [X] Set-up Server Event
-- [ ] Set-up Client Event [Add UI that only appears on client]
+- [X] Set-up Client Event
 - [X] Ensure Syncing
 - [X] Add public punchthrough
 - [ ] Make Host & Joining over LAN easy [remove need to type IPs]
