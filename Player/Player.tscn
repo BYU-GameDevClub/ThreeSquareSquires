@@ -13,3 +13,6 @@ shape = SubResource("RectangleShape2D_uujr2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_tn0ay")
+
+[node name="squareSelector" type="Sprite2D" parent="."]
+texture = ExtResource("2_tn0ay")
