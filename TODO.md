@@ -12,7 +12,7 @@
 - [ ] Make Host & Joining over LAN easy [remove need to type IPs]
 
 ### Board and Gameplay
--
+-  []finalize state diagram
 -
 ### UI
 -
