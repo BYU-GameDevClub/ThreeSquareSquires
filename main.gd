@@ -25,8 +25,8 @@ func _get_port_num():
 
 func _on_host_button_pressed():
 	var port = _get_port_num()
-	var is_host = TryUPNP(port)
-	multi_peer.create_server(port, 2)
+	# var is_host = TryUPNP(port)
+	multi_peer.create_server(port, 3)
 	multiplayer.multiplayer_peer = multi_peer
 	multi_peer.peer_connected.connect(func(id): add_player_character(id))
 	add_player_character()
@@ -63,11 +63,12 @@ func StartGame(playerInfo):
 	add_sibling(game)
 	for id in playerInfo:
 		var player = preload("res://player.tscn").instantiate()
-		player.name = str(id);
+		player.name = str(id)
+		player.set_multiplayer_authority(id)
 		game.add_child(player)
 	call_deferred("free")
 	
 func add_player_character(id=1):
 	print('%d joined' % id)
 	players.append(id)
-	if len(players) == 2: rpc("StartGame", players)
+	if len(players) == 3: rpc("StartGame", players)

@@ -17,3 +17,5 @@ layout_mode = 2
 [node name="Button" type="Button" parent="HBoxContainer"]
 layout_mode = 2
 text = "Play Card"
+
+[connection signal="pressed" from="HBoxContainer/Button" to="." method="_on_button_pressed"]

@@ -5,6 +5,5 @@
 [node name="game" type="HBoxContainer"]
 script = ExtResource("1_oriqu")
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://player.tscn")
-spawn_path = NodePath("..")
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
