@@ -30,7 +30,7 @@ text = "HOST
 [node name="HostIPLabel" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "192.168.253.62"
+text = "192.168.1.117"
 placeholder_text = "HOSTING IP"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
