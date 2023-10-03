@@ -1,15 +1,16 @@
 extends CharacterBody2D
 
 enum{
-	up,
-	down,
-	left,
-	right,
-	none
+	up = -1,
+	down = 1,
+	left = -1,
+	right = 1,
+	none = 0
 }
 
 #Initialize for movement
 var tileSize = 4
+var boardPosition = Vector2(0,0)
 
 #Setting stage of turn
 var stage = 0
@@ -29,17 +30,18 @@ func turnFlow():
 		0:
 			movement()
 		1:
-			traps()
-
-#//////////////Functions relating to stage 1: movement
+sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-linux1/GitHubDesktop-linux-3.1.1-linux1.deb
+### Uncomment below line if you have not installed gdebi-core before
+# sudo apt-get install gdebi-core 
+sudo gdebi GitHubDesktop-linux-3.1.1-linux1.debng to stage 1: movement
 var spacesLeft = 4
 var storedMovement = []
+var selectorPos = boardPosition
 func movement():
 	if spacesLeft>0:
-		var direction = checkInputDirection()
-		squareSelection(direction)
-		if direction != none:
-			temp(direction)
+		selectorPos += squareMovement()
+		if Input.is_action_just_pressed('select'):
+			squareSelection()
 		if Input.is_action_just_pressed("return") and !storedMovement.is_empty():
 			goBack()
 	else:
@@ -48,49 +50,36 @@ func movement():
 
 
 #Controls moving selection square
-func squareSelection(direction):
-	match direction:
-		right:
-			global_position.x += tileSize
-		left:
-			global_position.x -= tileSize
-		up:
-			global_position.y -= tileSize
-		down:
-			global_position.y += tileSize
-		none:
-			return
+func squareSelection():
+	var change = selectorPos-boardPosition
+	if change.length() == 1:
+		global_position += change*tileSize
+		boardPosition = selectorPos
+		$squareSelector.global_position = global_position
+		selectorPos = boardPosition
+		storedMovement.append(change)
+		spacesLeft -= 1
+		print(spacesLeft)
 
-func temp(direction):
-	storedMovement.append(direction)
-	spacesLeft -=1
 
 func goBack():
-	var direction = none
-	match storedMovement.pop_back():
-		up:
-			direction = down
-		left:
-			direction = right
-		right:
-			direction = left
-		down:
-			direction = up
-	squareSelection(direction)
-	spacesLeft+=1
-
-func checkInputDirection():
-	var direction = none
-	if Input.is_action_just_pressed('move_right'):
-		direction = right
-	if Input.is_action_just_pressed("move_left"):
-		direction = left
-	if Input.is_action_just_pressed("move_up"):
-		direction = up
-	if Input.is_action_just_pressed("move_down"):
-		direction = down
-	return direction
+	global_position += -storedMovement.pop_back()*tileSize
+	spacesLeft +=1
 
 #//////////////Function for stage 2:Trap Selection
 func traps():
 	return
+
+#Function for moving selection Square
+func squareMovement():
+	var changes = Vector2(0,0)
+	if Input.is_action_just_pressed('move_right'):
+		changes.x += right
+	if Input.is_action_just_pressed("move_left"):
+		changes.x += left
+	if Input.is_action_just_pressed("move_up"):
+		changes.y += up
+	if Input.is_action_just_pressed("move_down"):
+		changes.y += down
+	$squareSelector.global_position += changes*tileSize
+	return changes
