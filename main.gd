@@ -25,7 +25,16 @@ func _get_port_num():
 
 func _on_host_button_pressed():
 	var port = _get_port_num()
-	var is_host = TryUPNP(port)
+	if !TryUPNP(port):
+		var ip_adress :String
+		if OS.has_feature("windows"):
+			if OS.has_environment("COMPUTERNAME"):
+				ip_adress =  IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")),1)
+		elif OS.has_feature("x11") or OS.has_feature("OSX"):
+			if OS.has_environment("HOSTNAME"):
+				ip_adress =  IP.resolve_hostname(str(OS.get_environment("HOSTNAME")),1)
+		print(ip_adress)
+		lbl.text = ip_adress
 	multi_peer.create_server(port, 2)
 	multiplayer.multiplayer_peer = multi_peer
 	multi_peer.peer_connected.connect(func(id): add_player_character(id))
