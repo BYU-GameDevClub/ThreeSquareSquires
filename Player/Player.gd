@@ -30,10 +30,9 @@ func turnFlow():
 		0:
 			movement()
 		1:
-sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.1.1-linux1/GitHubDesktop-linux-3.1.1-linux1.deb
-### Uncomment below line if you have not installed gdebi-core before
-# sudo apt-get install gdebi-core 
-sudo gdebi GitHubDesktop-linux-3.1.1-linux1.debng to stage 1: movement
+			traps()
+
+#//////////////Functions relating to stage 1: movement
 var spacesLeft = 4
 var storedMovement = []
 var selectorPos = boardPosition
