@@ -1,9 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://dp2eqonwbpe3s"]
+[gd_scene load_steps=5 format=3 uid="uid://dp2eqonwbpe3s"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_vb3n3"]
 [ext_resource type="Texture2D" uid="uid://d0bpb0o04wvj0" path="res://icon.svg" id="2_tn0ay"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uujr2"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_gklks"]
+properties/0/path = NodePath("squareSelector:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_vb3n3")
@@ -16,3 +22,6 @@ texture = ExtResource("2_tn0ay")
 
 [node name="squareSelector" type="Sprite2D" parent="."]
 texture = ExtResource("2_tn0ay")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_gklks")
