@@ -47,6 +47,7 @@ func _on_join_button_pressed():
 	add_player_character()
 	
 func TryUPNP(port:int):
+	return false
 	var discover_result = upnp.discover()
 	if discover_result != UPNP.UPNP_RESULT_SUCCESS: return false
 	if !upnp.get_gateway() or !upnp.get_gateway().is_valid_gateway(): return false
@@ -68,12 +69,16 @@ func TryUPNP(port:int):
 @rpc("call_local")
 func StartGame(playerInfo):
 	print('starting the game...')
-	var game = preload("res://game.tscn").instantiate()
+	var game = preload("res://Everything/FullGame.tscn").instantiate()
 	add_sibling(game)
 	for id in playerInfo:
-		var player = preload("res://player.tscn").instantiate()
-		player.name = str(id);
-		game.add_child(player)
+		if id == 1:
+			game.player1.name = str(id);
+			game.isPlayer1 = true
+			game.player1.RegisterPlayer()
+		else:
+			game.player2.name = str(id);
+			game.player2.RegisterPlayer()
 	call_deferred("free")
 	
 func add_player_character(id=1):
