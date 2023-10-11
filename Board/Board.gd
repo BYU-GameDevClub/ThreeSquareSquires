@@ -32,7 +32,7 @@ func _ready():
 	
 func RegisterPlayer():
 	set_multiplayer_authority(name.to_int())
-	
+	$Player.ready_player()
 
 #For updating different location during the game loop
 func updateLocation(type,Coord):
