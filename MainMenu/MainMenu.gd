@@ -37,7 +37,7 @@ func _on_h_host_network_btn_pressed():
 		HostMenu.visible = false
 		WaitMenu.visible = true
 	else:
-		$PanelContainer/MarginContainer/Host/HBoxContainer/HostNetwork.enabled = false
+		$PanelContainer/MarginContainer/Host/HBoxContainer/HostNetwork.disabled = true
 
 func _on_h_host_lan_btn_pressed():
 	if Network.host_local():
@@ -45,7 +45,7 @@ func _on_h_host_lan_btn_pressed():
 		HostMenu.visible = false
 		WaitMenu.visible = true
 	else:
-		$PanelContainer/MarginContainer/Host/HBoxContainer2/HostLAN.enabled = false
+		$PanelContainer/MarginContainer/Host/HBoxContainer2/HostLAN.disabled = true
 
 func _on_j_join_btn_pressed():
 	Network.join_server(JoinIPLineEdit.text)
@@ -53,6 +53,7 @@ func _on_j_join_btn_pressed():
 func _on_cancel_button_pressed():
 	_all_invis()
 	HostJoinMenu.visible = true
+	Network.cancel()
 
 func _on_s_save_btn_pressed(node):
 	Network.set_port(int(PortLineEdit.text))
@@ -83,3 +84,10 @@ func game_start():
 		else:
 			game.player2.RegisterPlayer(id)
 	call_deferred("free")
+
+
+func _on_quick_connect_pressed():
+	Network.quick_connect()
+	HostJoinMenu.visible = false
+	WaitMenu.visible = true
+	

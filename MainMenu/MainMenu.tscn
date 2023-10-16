@@ -7,23 +7,24 @@
 position = Vector2(256, 202)
 script = ExtResource("1_t1gfv")
 
-[node name="Knight-background-wz4Fwfqneqh6Pygb-pixelicious" type="Sprite2D" parent="."]
+[node name="Knight-Background" type="Sprite2D" parent="."]
 texture = ExtResource("2_7irpm")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Knight-background-wz4Fwfqneqh6Pygb-pixelicious"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Knight-Background"]
 clip_contents = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -512.0
+offset_left = -356.0
 offset_top = -404.0
-offset_bottom = -364.0
+offset_bottom = -148.0
 grow_horizontal = 2
 grow_vertical = 2
 bbcode_enabled = true
-text = "[center][b][i][color=red]3[/color] Square Squires"
+text = "[font_size=72][center][b][i][color=red]3[/color] Square
+Squires"
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 anchors_preset = 5
@@ -51,6 +52,12 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 text = "HOST GAME
+"
+
+[node name="QuickConnect" type="Button" parent="PanelContainer/MarginContainer/HostJoin/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "↕
 "
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/HostJoin"]
@@ -184,6 +191,7 @@ size_flags_horizontal = 3
 text = "SAVE"
 
 [connection signal="pressed" from="PanelContainer/MarginContainer/HostJoin/HBoxContainer/Host Button" to="." method="_on_hj_host_btn_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/HostJoin/HBoxContainer/QuickConnect" to="." method="_on_quick_connect_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/HostJoin/HBoxContainer2/Join Button" to="." method="_on_hj_join_btn_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/HostJoin/HBoxContainer2/SettingsButton" to="." method="_on_settings_button_pressed" binds= ["PanelContainer/MarginContainer/HostJoin"]]
 [connection signal="pressed" from="PanelContainer/MarginContainer/Host/HBoxContainer/HostNetwork" to="." method="_on_h_host_network_btn_pressed"]
