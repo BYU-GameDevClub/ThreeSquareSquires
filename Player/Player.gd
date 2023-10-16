@@ -27,7 +27,7 @@ func ready_player():
 	turnFlow()
 
 func _process(delta):
-	if !is_multiplayer_authority(): return
+	if !is_multiplayer_authority(): return OK
 	turnFlow()
 
 func turnFlow():

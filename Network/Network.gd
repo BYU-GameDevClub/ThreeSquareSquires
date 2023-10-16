@@ -50,13 +50,13 @@ func host_network():
 	return true
 
 func host_local():
+	print(OS.get_environment('HOSTNAME'), OS.get_environment('hostname'), OS)
 	if OS.has_feature("windows") && OS.has_environment("COMPUTERNAME"):
 		hostIP = IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")),1)
 	elif OS.has_environment("HOSTNAME"):
 		hostIP = IP.resolve_hostname(str(OS.get_environment("HOSTNAME")),1)
 	else:
-		hostIP = ''
-		return false
+		hostIP = IP.get_local_addresses()[0]
 	status = LAN_HOST
 	return true
 
@@ -65,6 +65,7 @@ func add_player_character(id=1):
 	if len(connectedIPs) == 2: rpc("start_game", connectedIPs)
 
 func cancel():
+	if DISCONNECTED: return
 	if CLIENT: pass
 	elif UNPN_HOST:
 		_upnp.delete_port_mapping(4242,"UPD")
@@ -81,6 +82,16 @@ func get_address():
 	return hostIP
 func get_connected_ips():
 	return connectedIPs
+
+func quick_connect():
+	host_local()
+	if multi_peer.create_server(port, 2) != OK:
+		join_server(hostIP)
+	else:
+		multiplayer.multiplayer_peer = multi_peer
+		multi_peer.peer_connected.connect(func(id): add_player_character(id))
+		add_player_character()
+	return OK
 
 @rpc("call_local")
 func start_game(playerIds):
