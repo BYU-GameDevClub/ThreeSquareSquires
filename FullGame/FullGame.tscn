@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cmuu5suohnn6u"]
 
-[ext_resource type="Script" path="res://Everything/FullGame.gd" id="1_clyr7"]
-[ext_resource type="PackedScene" uid="uid://b3u8iltl6d8uy" path="res://Board/MainBoard.tscn" id="2_rusyg"]
+[ext_resource type="Script" path="res://FullGame/FullGame.gd" id="1_clyr7"]
+[ext_resource type="PackedScene" uid="uid://b3u8iltl6d8uy" path="res://Board/PlayerBoard.tscn" id="2_rusyg"]
 
 [node name="FullGame" type="Node2D"]
 script = ExtResource("1_clyr7")

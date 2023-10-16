@@ -30,8 +30,9 @@ var board = create2dArray(boardHeight,boardWidth)
 func _ready():
 	board[1][1]=wall
 	
-func RegisterPlayer():
-	set_multiplayer_authority(name.to_int())
+func RegisterPlayer(id):
+	name = str(id)
+	set_multiplayer_authority(id)
 	$Player.ready_player()
 
 #For updating different location during the game loop

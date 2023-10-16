@@ -1,0 +1,196 @@
+[gd_scene load_steps=3 format=3 uid="uid://icgg6w4610a3"]
+
+[ext_resource type="Script" path="res://MainMenu/MainMenu.gd" id="1_t1gfv"]
+[ext_resource type="Texture2D" uid="uid://d7f4ihr4j8pg" path="res://MainMenu/knight-background-wz4fwfqneqh6pygb-pixelicious.png" id="2_7irpm"]
+
+[node name="Node2D" type="Node2D"]
+position = Vector2(256, 202)
+script = ExtResource("1_t1gfv")
+
+[node name="Knight-background-wz4Fwfqneqh6Pygb-pixelicious" type="Sprite2D" parent="."]
+texture = ExtResource("2_7irpm")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Knight-background-wz4Fwfqneqh6Pygb-pixelicious"]
+clip_contents = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -512.0
+offset_top = -404.0
+offset_bottom = -364.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "[center][b][i][color=red]3[/color] Square Squires"
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -73.0
+offset_right = 73.0
+offset_bottom = 86.0
+grow_horizontal = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HostJoin" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/HostJoin"]
+layout_mode = 2
+
+[node name="Host Button" type="Button" parent="PanelContainer/MarginContainer/HostJoin/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "HOST GAME
+"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/HostJoin"]
+layout_mode = 2
+
+[node name="Join Button" type="Button" parent="PanelContainer/MarginContainer/HostJoin/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = " JOIN GAME"
+
+[node name="SettingsButton" type="Button" parent="PanelContainer/MarginContainer/HostJoin/HBoxContainer2"]
+layout_mode = 2
+text = "⚙"
+
+[node name="Host" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/Host"]
+layout_mode = 2
+
+[node name="HostNetwork" type="Button" parent="PanelContainer/MarginContainer/Host/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "NETWORK"
+
+[node name="CancelButton" type="Button" parent="PanelContainer/MarginContainer/Host/HBoxContainer"]
+layout_mode = 2
+text = "✖"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/Host"]
+layout_mode = 2
+
+[node name="HostLAN" type="Button" parent="PanelContainer/MarginContainer/Host/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "LAN GAME"
+
+[node name="SettingsButton" type="Button" parent="PanelContainer/MarginContainer/Host/HBoxContainer2"]
+layout_mode = 2
+text = "⚙"
+
+[node name="Waiting" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/Waiting"]
+layout_mode = 2
+
+[node name="IPEditText" type="LineEdit" parent="PanelContainer/MarginContainer/Waiting/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+editable = false
+expand_to_text_length = true
+select_all_on_focus = true
+
+[node name="CancelButton" type="Button" parent="PanelContainer/MarginContainer/Waiting/HBoxContainer"]
+layout_mode = 2
+text = "✖"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/Waiting"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="TextEdit" type="TextEdit" parent="PanelContainer/MarginContainer/Waiting/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "WAITING..."
+editable = false
+context_menu_enabled = false
+shortcut_keys_enabled = false
+selecting_enabled = false
+drag_and_drop_selection_enabled = false
+virtual_keyboard_enabled = false
+middle_mouse_paste_enabled = false
+scroll_fit_content_height = true
+
+[node name="Join" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/Join"]
+layout_mode = 2
+
+[node name="JoinLineEdit" type="LineEdit" parent="PanelContainer/MarginContainer/Join/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Host IP"
+
+[node name="CancelButton" type="Button" parent="PanelContainer/MarginContainer/Join/HBoxContainer"]
+layout_mode = 2
+text = "✖"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/Join"]
+layout_mode = 2
+
+[node name="Join Button" type="Button" parent="PanelContainer/MarginContainer/Join/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = " JOIN "
+
+[node name="SettingsButton" type="Button" parent="PanelContainer/MarginContainer/Join/HBoxContainer2"]
+layout_mode = 2
+text = "⚙"
+
+[node name="Settings" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/Settings"]
+layout_mode = 2
+
+[node name="PortLineEdit" type="LineEdit" parent="PanelContainer/MarginContainer/Settings/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "PORT #"
+alignment = 1
+
+[node name="CancelButton" type="Button" parent="PanelContainer/MarginContainer/Settings/HBoxContainer"]
+layout_mode = 2
+text = "✖"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/Settings"]
+layout_mode = 2
+
+[node name="Save Button" type="Button" parent="PanelContainer/MarginContainer/Settings/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "SAVE"
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/HostJoin/HBoxContainer/Host Button" to="." method="_on_hj_host_btn_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/HostJoin/HBoxContainer2/Join Button" to="." method="_on_hj_join_btn_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/HostJoin/HBoxContainer2/SettingsButton" to="." method="_on_settings_button_pressed" binds= ["PanelContainer/MarginContainer/HostJoin"]]
+[connection signal="pressed" from="PanelContainer/MarginContainer/Host/HBoxContainer/HostNetwork" to="." method="_on_h_host_network_btn_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/Host/HBoxContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/Host/HBoxContainer2/HostLAN" to="." method="_on_h_host_lan_btn_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/Host/HBoxContainer2/SettingsButton" to="." method="_on_settings_button_pressed" binds= ["PanelContainer/MarginContainer/Host"]]
+[connection signal="pressed" from="PanelContainer/MarginContainer/Waiting/HBoxContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/Join/HBoxContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/Join/HBoxContainer2/Join Button" to="." method="_on_j_join_btn_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/Join/HBoxContainer2/SettingsButton" to="." method="_on_settings_button_pressed" binds= ["PanelContainer/MarginContainer/Join"]]
