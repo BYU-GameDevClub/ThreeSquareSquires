@@ -9,20 +9,25 @@ enum{
 }
 
 #Initialize for movement
-var tileSize = 4
+var tileSize = 40
 var boardPosition = Vector2(0,0)
+
+var boardRef
 
 #Setting stage of turn
 var stage = 0
 
 #Change to board length for proper spacing
-func _ready():
-	if get_parent().name =="Board":
-		if get_parent().tileSize != null:
-			tileSize =  get_parent().tileSize
+func ready_player():
+	if get_parent().tileSize != null:
+		print('hi')
+		tileSize =  get_parent().tileSize
+		boardRef = get_parent()
+		
 	turnFlow()
 
 func _process(delta):
+	if !is_multiplayer_authority(): return
 	turnFlow()
 
 func turnFlow():
@@ -45,13 +50,14 @@ func movement():
 			goBack()
 	else:
 		stage+=1
+		boardRef.updateLocation(boardRef.player,boardPosition)
 		print(storedMovement)
 
 
 #Controls moving selection square
 func squareSelection():
 	var change = selectorPos-boardPosition
-	if change.length() == 1:
+	if change.length() == 1 and boardRef.board[selectorPos.x][selectorPos.y] == boardRef.empty:
 		global_position += change*tileSize
 		boardPosition = selectorPos
 		$squareSelector.global_position = global_position
@@ -59,7 +65,8 @@ func squareSelection():
 		storedMovement.append(change)
 		spacesLeft -= 1
 		print(spacesLeft)
-
+	else:
+		print(selectorPos)
 
 func goBack():
 	global_position += -storedMovement.pop_back()*tileSize

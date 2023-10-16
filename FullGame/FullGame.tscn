@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cmuu5suohnn6u"]
+
+[ext_resource type="Script" path="res://FullGame/FullGame.gd" id="1_clyr7"]
+[ext_resource type="PackedScene" uid="uid://b3u8iltl6d8uy" path="res://Board/PlayerBoard.tscn" id="2_rusyg"]
+
+[node name="FullGame" type="Node2D"]
+script = ExtResource("1_clyr7")
+
+[node name="player1" parent="." instance=ExtResource("2_rusyg")]
+position = Vector2(66, 72)
+
+[node name="player2" parent="." instance=ExtResource("2_rusyg")]
+position = Vector2(64, 389)
