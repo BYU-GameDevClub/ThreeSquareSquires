@@ -18,13 +18,13 @@ var boardRef
 var stage = 0
 
 #Change to board length for proper spacing
-func _ready():
-	if get_parent().name =="Board":
-		if get_parent().tileSize != null:
-			print('hi')
-			tileSize =  get_parent().tileSize
-			boardRef = get_parent()
-			
+func rready():
+	boardRef = get_parent()
+	if get_parent().tileSize != null:
+		tileSize = get_parent().tileSize
+		global_position=(boardRef.BtoW(Vector2(0,0)))
+		print(tileSize)
+		
 	turnFlow()
 
 func _process(delta):
