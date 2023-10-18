@@ -48,6 +48,10 @@ layout_mode = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/HostJoin"]
 layout_mode = 2
 
+[node name="Mini Game" type="Button" parent="PanelContainer/MarginContainer/HostJoin/HBoxContainer"]
+layout_mode = 2
+text = "🎮"
+
 [node name="Host Button" type="Button" parent="PanelContainer/MarginContainer/HostJoin/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -190,6 +194,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "SAVE"
 
+[connection signal="pressed" from="PanelContainer/MarginContainer/HostJoin/HBoxContainer/Mini Game" to="." method="_on_mini_game_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/HostJoin/HBoxContainer/Host Button" to="." method="_on_hj_host_btn_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/HostJoin/HBoxContainer/QuickConnect" to="." method="_on_quick_connect_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/HostJoin/HBoxContainer2/Join Button" to="." method="_on_hj_join_btn_pressed"]

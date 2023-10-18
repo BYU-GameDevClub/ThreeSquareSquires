@@ -19,6 +19,11 @@ config/icon="res://icon.svg"
 
 Network="*res://Network/Network.gd"
 
+[display]
+
+window/size/viewport_width=512
+window/size/viewport_height=404
+
 [dotnet]
 
 project/assembly_name="ThreeSquareSquires"
