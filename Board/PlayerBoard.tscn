@@ -10,12 +10,14 @@
 script = ExtResource("1_fiv6t")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(256, 90)
+position = Vector2(320, 160)
 scale = Vector2(5, 2.5)
 texture = ExtResource("2_jc4em")
 
 [node name="Tiles" type="TileMap" parent="."]
+position = Vector2(64, 70)
 tile_set = SubResource("TileSet_ml5li")
 format = 2
 
 [node name="Player" parent="." instance=ExtResource("2_taw3m")]
+position = Vector2(64, 70)

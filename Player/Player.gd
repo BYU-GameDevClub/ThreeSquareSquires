@@ -29,6 +29,7 @@ func ready_player():
 func _process(delta):
 	if !is_multiplayer_authority(): return OK
 	turnFlow()
+	return OK
 
 func turnFlow():
 	match stage:
