@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://dvtnd6dabl87y"]
+
+[ext_resource type="Texture2D" uid="uid://dwee7ooxew650" path="res://KennySprites/kenney_tiny-dungeon/Tiles/tile_0097.png" id="1_hjgr4"]
+[ext_resource type="Script" path="res://Player.gd" id="1_xm5dj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vy4vy"]
+size = Vector2(12, 15)
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_xm5dj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_hjgr4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_vy4vy")

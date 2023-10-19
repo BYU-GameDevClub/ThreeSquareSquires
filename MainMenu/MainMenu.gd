@@ -93,4 +93,4 @@ func _on_quick_connect_pressed():
 
 
 func _on_mini_game_pressed():
-	preload("res://Minigame/MinigameTest.tscn").instantiate()
+	add_child(preload("res://Minigame/MinigameTest.tscn").instantiate())
