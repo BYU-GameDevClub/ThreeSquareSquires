@@ -18,18 +18,18 @@ var boardRef
 var stage = 0
 
 #Change to board length for proper spacing
-func rready():
-	boardRef = get_parent()
+func ready_player():
 	if get_parent().tileSize != null:
-		tileSize = get_parent().tileSize
-		global_position=(boardRef.BtoW(Vector2(0,0)))
-		print(tileSize)
+		print('hi')
+		tileSize =  get_parent().tileSize
+		boardRef = get_parent()
 		
 	turnFlow()
 
 func _process(delta):
-	if !is_multiplayer_authority(): return
+	if !is_multiplayer_authority(): return OK
 	turnFlow()
+	return OK
 
 func turnFlow():
 	match stage:
