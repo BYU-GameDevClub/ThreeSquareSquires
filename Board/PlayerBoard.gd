@@ -24,10 +24,13 @@ func create2dArray(height,width):
 #Variables related to the board and size
 @export var boardHeight = 7
 @export var boardWidth = 20
-var tileSize = 50
+var tileSize
 var board = create2dArray(boardHeight,boardWidth)
 
 func _ready():
+	tileSize = $Tiles.tile_set.tile_size.x*$Tiles.scale.x
+	print(tileSize)
+	$Player.rready()
 	board[1][1]=wall
 	
 func RegisterPlayer(id):
@@ -38,3 +41,9 @@ func RegisterPlayer(id):
 #For updating different location during the game loop
 func updateLocation(type,Coord):
 	board[Coord.x][Coord.y]=type
+
+func BtoW(board):
+	var new = Vector2()
+	new.x = board.x*tileSize+tileSize/2
+	new.y = board.y*tileSize+tileSize/2
+	return new
