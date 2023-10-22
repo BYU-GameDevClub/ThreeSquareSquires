@@ -19,11 +19,12 @@ var stage = 0
 
 #Change to board length for proper spacing
 func ready_player():
+	boardRef = get_parent()
 	if get_parent().tileSize != null:
-		print('hi')
-		tileSize =  get_parent().tileSize
-		boardRef = get_parent()
-		
+		tileSize =  boardRef.tileSize
+		print("Starting Position: ",boardRef.BtoW(Vector2(0,0)))
+		global_position=(boardRef.BtoW(Vector2(0,0)))
+	
 	turnFlow()
 
 func _process(delta):
@@ -52,7 +53,7 @@ func movement():
 	else:
 		stage+=1
 		boardRef.updateLocation(boardRef.player,boardPosition)
-		print(storedMovement)
+		print("Moves performed: ",storedMovement)
 
 
 #Controls moving selection square
@@ -65,9 +66,9 @@ func squareSelection():
 		selectorPos = boardPosition
 		storedMovement.append(change)
 		spacesLeft -= 1
-		print(spacesLeft)
+		print("Movement Left: ",spacesLeft)
 	else:
-		print(selectorPos)
+		print("Something prevents movement at: ",selectorPos)
 
 func goBack():
 	global_position += -storedMovement.pop_back()*tileSize
