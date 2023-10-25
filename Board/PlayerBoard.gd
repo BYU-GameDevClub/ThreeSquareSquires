@@ -22,13 +22,19 @@ func create2dArray(height,width):
 
 
 #Variables related to the board and size
-@export var boardHeight = 7
-@export var boardWidth = 20
+@export var boardHeight = 9
+@export var boardWidth = 22
 @onready var tileSize = $Tiles.tile_set.tile_size.x*$Tiles.scale.x
 var board = create2dArray(boardHeight,boardWidth)
 
 func _ready():
-	board[1][1]=wall
+	for i in boardWidth:
+		board[0][i]=wall
+		board[boardHeight-1][i]=wall
+	for i in boardHeight:
+		board[i][0]=wall
+		board[i][boardWidth-1]=wall
+		
 	$Player.ready_player()
 
 func RegisterPlayer(id):

@@ -10,7 +10,7 @@ enum{
 
 #Initialize for movement
 var tileSize = 40
-var boardPosition = Vector2(0,0)
+var boardPosition = Vector2(1,1)
 
 var boardRef
 
@@ -22,8 +22,8 @@ func ready_player():
 	boardRef = get_parent()
 	if get_parent().tileSize != null:
 		tileSize =  boardRef.tileSize
-		print("Starting Position: ",boardRef.BtoW(Vector2(0,0)))
-		global_position=(boardRef.BtoW(Vector2(0,0)))
+		print("Starting Position: ",boardRef.BtoW(Vector2(1,1)))
+		global_position=(boardRef.BtoW(Vector2(1,1)))+boardRef.global_position
 	
 	turnFlow()
 

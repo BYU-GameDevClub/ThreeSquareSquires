@@ -21,7 +21,7 @@ Network="*res://Network/Network.gd"
 
 [display]
 
-window/size/viewport_width=640
+window/size/viewport_width=704
 window/size/viewport_height=640
 window/subwindows/embed_subwindows=false
 
