@@ -48,6 +48,6 @@ func updateLocation(type,Coord):
 
 func BtoW(board):
 	var new = Vector2()
-	new.x = board.x*tileSize+tileSize/2
-	new.y = board.y*tileSize+tileSize/2
+	new.x = board.x*tileSize+tileSize/2+global_position.x
+	new.y = board.y*tileSize+tileSize/2+global_position.y
 	return new

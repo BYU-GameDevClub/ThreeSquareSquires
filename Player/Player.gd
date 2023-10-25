@@ -23,7 +23,7 @@ func ready_player():
 	if get_parent().tileSize != null:
 		tileSize =  boardRef.tileSize
 		print("Starting Position: ",boardRef.BtoW(Vector2(1,1)))
-		global_position=(boardRef.BtoW(Vector2(1,1)))+boardRef.global_position
+		global_position=(boardRef.BtoW(Vector2(1,1)))
 	
 	turnFlow()
 
@@ -89,5 +89,17 @@ func squareMovement():
 		changes.y += up
 	if Input.is_action_just_pressed("move_down"):
 		changes.y += down
+	var boardLeft = Vector2(boardRef.BtoW(Vector2(0,0)))
+	var boardRight = Vector2(boardRef.BtoW(Vector2(boardRef.boardWidth-1,boardRef.boardHeight-1)))
+	
+	if $squareSelector.global_position.x == boardLeft.x and changes.x == left:
+		return Vector2(0,0)
+	if $squareSelector.global_position.x == boardRight.x and changes.x == right:
+		return Vector2(0,0)
+	if $squareSelector.global_position.y == boardLeft.y and changes.y == up:
+		return Vector2(0,0)
+	if $squareSelector.global_position.y == boardRight.y and changes.y == down:
+		return Vector2(0,0)
+	
 	$squareSelector.global_position += changes*tileSize
 	return changes
