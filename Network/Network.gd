@@ -85,12 +85,14 @@ func get_connected_ips():
 
 func quick_connect():
 	host_local()
-	if multi_peer.create_server(port, 2) != OK:
+	var err = multi_peer.create_server(port, 2)
+	if err != OK:
 		join_server(hostIP)
 	else:
 		multiplayer.multiplayer_peer = multi_peer
 		multi_peer.peer_connected.connect(func(id): add_player_character(id))
 		add_player_character()
+	if err == ERR_CANT_CREATE: pass
 	return OK
 
 @rpc("call_local")
