@@ -23,6 +23,7 @@ Network="*res://Network/Network.gd"
 
 window/size/viewport_width=640
 window/size/viewport_height=640
+window/subwindows/embed_subwindows=false
 
 [dotnet]
 

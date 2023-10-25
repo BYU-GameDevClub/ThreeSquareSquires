@@ -1,5 +1,7 @@
-extends Node2D
+class_name Minigame
+extends Window
 
+signal exit(score:float)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
