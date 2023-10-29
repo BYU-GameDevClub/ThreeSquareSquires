@@ -2,7 +2,7 @@ extends Node2D
 
 #For specifying what is put on the board spaces
 #More can be added later
-enum {
+enum Tiles{
 	empty,
 	player,
 	wall,
@@ -16,7 +16,7 @@ func create2dArray(height,width):
 		a.append([])
 		a[x].resize(width)
 		for y in range(width):
-			a[x][y] = empty
+			a[x][y] = Tiles.empty
 	return a
 	
 
@@ -29,11 +29,11 @@ var board = create2dArray(boardHeight,boardWidth)
 
 func _ready():
 	for i in boardWidth:
-		board[0][i]=wall
-		board[boardHeight-1][i]=wall
+		board[0][i]=Tiles.wall
+		board[boardHeight-1][i]=Tiles.wall
 	for i in boardHeight:
-		board[i][0]=wall
-		board[i][boardWidth-1]=wall
+		board[i][0]=Tiles.wall
+		board[i][boardWidth-1]=Tiles.wall
 		
 	$Player.ready_player()
 
@@ -45,6 +45,9 @@ func RegisterPlayer(id):
 #For updating different location during the game loop
 func updateLocation(type,Coord):
 	board[Coord.x][Coord.y]=type
+
+func checkTile(coord):
+	return board[coord.x][coord.y]
 
 func BtoW(board):
 	var new = Vector2()
