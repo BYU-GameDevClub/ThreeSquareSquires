@@ -34,8 +34,6 @@ func _ready():
 	for i in boardHeight:
 		board[i][0]=Tiles.wall
 		board[i][boardWidth-1]=Tiles.wall
-		
-	$Player.ready_player()
 
 func RegisterPlayer(id):
 	name = str(id)
