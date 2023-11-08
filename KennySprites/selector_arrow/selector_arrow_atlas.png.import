@@ -2,20 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-<<<<<<< HEAD
-uid="uid://cknsiwkdc6b7q"
-=======
-uid="uid://w61giqg1guvy"
->>>>>>> a5ddbad67973f5a0c450c1fdd745a7f13c72b153
-path="res://.godot/imported/pixilart-sprite.png-e5727e90d5464e3f954806d2e8eb3b2c.ctex"
+uid="uid://pbewft1vj3p4"
+path="res://.godot/imported/selector_arrow_atlas.png-31568b011944eee1a9fc127f70569de5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/pixilart-sprite.png"
-dest_files=["res://.godot/imported/pixilart-sprite.png-e5727e90d5464e3f954806d2e8eb3b2c.ctex"]
+source_file="res://KennySprites/selector_arrow/selector_arrow_atlas.png"
+dest_files=["res://.godot/imported/selector_arrow_atlas.png-31568b011944eee1a9fc127f70569de5.ctex"]
 
 [params]
 

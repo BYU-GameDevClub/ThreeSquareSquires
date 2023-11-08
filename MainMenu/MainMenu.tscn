@@ -4,10 +4,25 @@
 [ext_resource type="Texture2D" uid="uid://d7f4ihr4j8pg" path="res://MainMenu/knight-background-wz4fwfqneqh6pygb-pixelicious.png" id="2_7irpm"]
 
 [node name="Node2D" type="Node2D"]
-position = Vector2(256, 202)
+position = Vector2(352, 320)
 script = ExtResource("1_t1gfv")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -352.0
+offset_top = -320.0
+offset_right = 352.0
+offset_bottom = 320.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
 [node name="Knight-Background" type="Sprite2D" parent="."]
+scale = Vector2(1.375, 1.375)
 texture = ExtResource("2_7irpm")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Knight-Background"]
@@ -30,10 +45,10 @@ Squires"
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -73.0
-offset_right = 73.0
+offset_left = -174.0
 offset_bottom = 86.0
 grow_horizontal = 2
+scale = Vector2(2, 2)
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
 layout_mode = 2
