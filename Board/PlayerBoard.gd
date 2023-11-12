@@ -12,10 +12,10 @@ enum Tiles{
 #Just to make a 2dArray
 func create2dArray(height,width):
 	var a = []
-	for x in range(height):
+	for x in range(width):
 		a.append([])
-		a[x].resize(width)
-		for y in range(width):
+		a[x].resize(height)
+		for y in range(height):
 			a[x][y] = Tiles.empty
 	return a
 	
@@ -28,12 +28,12 @@ func create2dArray(height,width):
 var board = create2dArray(boardHeight,boardWidth)
 
 func _ready():
-	for i in boardWidth:
-		board[0][i]=Tiles.wall
-		board[boardHeight-1][i]=Tiles.wall
 	for i in boardHeight:
+		board[0][i]=Tiles.wall
+		board[boardWidth-1][i]=Tiles.wall
+	for i in boardWidth:
 		board[i][0]=Tiles.wall
-		board[i][boardWidth-1]=Tiles.wall
+		board[i][boardHeight-1]=Tiles.wall
 
 func RegisterPlayer(id):
 	name = str(id)

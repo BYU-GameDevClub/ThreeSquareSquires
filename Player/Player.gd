@@ -8,6 +8,8 @@ enum{
 	none = 0
 }
 
+signal arrows(changes,pos)
+
 #Initialize for movement
 var tileSize = 40
 var boardPosition = Vector2(1,1)
@@ -27,7 +29,7 @@ func ready_player():
 	
 	turnFlow()
 
-func _process(delta):
+func _process(_delta):
 	if !is_multiplayer_authority(): return OK
 	turnFlow()
 	return OK
@@ -45,33 +47,49 @@ func turnFlow():
 var spacesLeft = 3
 var storedMovement = []
 var selectorPos = boardPosition
+var init = false
 func movement():
+	if !init:
+		$squareSelector.global_position = global_position
+		selectorPos = boardPosition
+		print(selectorPos)
+		init = true
 	if spacesLeft>0:
-		selectorPos += squareMovement()
-		if Input.is_action_just_pressed('select'):
-			squareSelection()
-		if Input.is_action_just_pressed("return") and !storedMovement.is_empty():
-			goBack()
-	else:
+		var changes = squareMovement()
+		selectorPos +=changes
+		squareSelection(changes)
+	if Input.is_action_just_pressed("return") and !storedMovement.is_empty():
+		goBack()
+	if (Input.is_action_just_pressed("select")):
 		stage+=1
+		init = false
 		print("Moves performed: ",storedMovement)
 
 #Controls the actually selection of a movement space
-func squareSelection():
-	var change = selectorPos-boardPosition
-	if change.length() <= spacesLeft and boardRef.board[selectorPos.x][selectorPos.y] != boardRef.Tiles.wall:
+func squareSelection(changes):
+	if boardRef.board[selectorPos.x][selectorPos.y] != boardRef.Tiles.wall and changes != Vector2(0,0):
 		boardPosition = selectorPos
 		$squareSelector.global_position = boardRef.BtoW(boardPosition)
-		storedMovement.append(change)
-		spacesLeft -= ceil(change.length())
+		spacesLeft -= 1
+		storedMovement.append(changes)
+		print(storedMovement)
+		var arrowChanges = [changes,Vector2(0,0)]
+		if storedMovement.size()>1:
+			arrowChanges[1] = storedMovement[-2]
+		arrows.emit(arrowChanges,false)
 		print("Movement Left: ",spacesLeft)
 	else:
-		print("Something prevents movement at: ",selectorPos)
+		selectorPos -= changes
 
 func goBack():
-	global_position += -storedMovement.pop_back()*tileSize
+	var reverse = storedMovement.pop_back()
+	$squareSelector.global_position -= reverse*tileSize
+	var send = [reverse,Vector2(0,0)]
+	if storedMovement.size()>0:
+		send = [reverse,storedMovement[-1]]
+	arrows.emit(send,true)
+	selectorPos -= reverse
 	spacesLeft +=1
-
 
 
 #//////////////Function for stage 2:Trap Selection
@@ -79,7 +97,9 @@ var currentTrap = 3
 var trapsLeft = 3
 func traps():
 	if trapsLeft > 0:
-		selectorPos += squareMovement()
+		var changes = squareMovement()
+		selectorPos += changes
+		$squareSelector.global_position += changes*tileSize
 		if Input.is_action_just_pressed("select"):
 			placeTrap()
 			print("Traps Left: ",trapsLeft)
@@ -107,16 +127,16 @@ func squareMovement():
 	var boardLeft = Vector2(boardRef.BtoW(Vector2(0,0)))
 	var boardRight = Vector2(boardRef.BtoW(Vector2(boardRef.boardWidth-1,boardRef.boardHeight-1)))
 	
-	if $squareSelector.global_position.x == boardLeft.x and changes.x == left:
-		return Vector2(0,0)
-	if $squareSelector.global_position.x == boardRight.x and changes.x == right:
-		return Vector2(0,0)
-	if $squareSelector.global_position.y == boardLeft.y and changes.y == up:
-		return Vector2(0,0)
-	if $squareSelector.global_position.y == boardRight.y and changes.y == down:
-		return Vector2(0,0)
+	if(stage!=0):
+		if $squareSelector.global_position.x == boardLeft.x and changes.x == left:
+			return Vector2(0,0)
+		if $squareSelector.global_position.x == boardRight.x and changes.x == right:
+			return Vector2(0,0)
+		if $squareSelector.global_position.y == boardLeft.y and changes.y == up:
+			return Vector2(0,0)
+		if $squareSelector.global_position.y == boardRight.y and changes.y == down:
+			return Vector2(0,0)
 	
-	$squareSelector.global_position += changes*tileSize
 	return changes
 
 
@@ -139,6 +159,8 @@ func reset():
 	stage=0
 
 func endOfTurn():
+	$Arrows.clear_layer(0)
+	$Arrows.pos = Vector2(0,0)
 	global_position = boardRef.BtoW(boardPosition)
 	storedMovement.clear()
 	$squareSelector.global_position=boardRef.BtoW(selectorPos)
