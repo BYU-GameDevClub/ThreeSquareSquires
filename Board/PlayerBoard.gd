@@ -30,14 +30,11 @@ func make_moves(moves, other_moves, enemeyTraps):
 	print(Network.get_id(),': I moved ',moves,' they moved ', other_moves,' they placed traps @', enemeyTraps)
 	# DEAL WITH OTHER PLAYER
 	for i in range(len(moves)):
-		print('%d: %d'%[Network.get_id(), i])
+		print('%d: Move #%d'%[Network.get_id(), i+1])
 		var _myMove = moves[i]
 		var _oponentMove = other_moves[i]
-		if (Network.get_id() == 1):
-			await get_tree().create_timer(1).timeout
+		# if (Network.get_id() == 1): await get_tree().create_timer(1).timeout
 		await get_parent().hasMoved.post()
-		print(Network.get_id(),': move %d finished' % i)
-	print(Network.get_id(),': finished turn')
 func _ready():
 	for i in boardHeight:
 		board[0][i]=Tiles.wall

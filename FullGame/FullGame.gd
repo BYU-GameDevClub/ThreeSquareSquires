@@ -17,4 +17,3 @@ func _make_moves(playerMoves):
 	var player2traps = playerMoves[1][1]
 	await player1.make_moves(player1moves, player2moves, player2traps)
 	await player2.make_moves(player2moves, player1moves, player1traps)
-	print(Network.get_id(),': done with turn?')

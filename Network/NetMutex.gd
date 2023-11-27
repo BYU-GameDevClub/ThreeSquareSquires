@@ -20,29 +20,26 @@ class _Mutex extends Node:
 	var _vals
 	var _max = 2
 	var _set_count = 0
+	var _bound = false
 	var complete = func():pass
-	var _nodes = {}
-	class sigNode extends Node:
-		func _init(id) -> void:
-			name = str(id)
-			set_multiplayer_authority(id)
-		signal _s
-			
+	signal _signal
+	signal _unbound
 	func _init(key, onComplete) -> void:
 		self._id = key
 		self.complete = onComplete
-		self._reset()
 		self.name = str(_id)
-		for id in Network.get_connected_ips():
-			_nodes[id] = sigNode.new(id)
-			add_child(_nodes[id])
-			
-	func post(val = _default):
-		var idx = int(Network.get_id()!=1)
-		NetMutex.rpc('_set_val', _id, idx, val)
-		for n in _nodes:
-			await _nodes[n]._s
-		print(Network.get_id(),': fin post')
+		self._reset()
+	func _wait():
+		if _bound: await _unbound
+		_bound = true
+	func _unwait():
+		_bound = false
+		call_deferred('emit_signal', '_unbound')
+	func post(val = true):
+		await _wait()
+		NetMutex.rpc('_set_val', _id, int(Network.get_id()!=1), val)
+		_unwait()
+		await _signal
 	func reset():
 		NetMutex.rpc('_reset', _id) 
 	func _reset():
@@ -50,12 +47,12 @@ class _Mutex extends Node:
 		_set_count = 0
 	func _rollover():
 		await complete.call(_vals)
-		for n in _nodes:
-			await _nodes[n]._s.emit()
+		_signal.emit()
 		_reset()
-		print(Network.get_id(),': %s emitted'%_id)
 	func _set_val(idx, val):
+		await _wait()
 		_set_count+= 1
 		_vals[idx] = val
 		if _set_count == _max: _rollover()
+		_unwait()
 
