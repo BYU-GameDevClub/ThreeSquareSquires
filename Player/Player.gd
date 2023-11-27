@@ -15,6 +15,7 @@ var tileSize = 40
 var boardPosition = Vector2(1,1)
 
 var boardRef
+var gameRef
 
 #Setting stage of turn
 var stage = 0
@@ -22,11 +23,10 @@ var stage = 0
 #Change to board length for proper spacing
 func ready_player():
 	boardRef = get_parent()
+	gameRef = boardRef.get_parent()
 	if get_parent().tileSize != null:
 		tileSize =  boardRef.tileSize
-		print("Starting Position: ",boardRef.BtoW(Vector2(1,1)))
 		global_position=(boardRef.BtoW(Vector2(1,1)))
-	
 	turnFlow()
 
 func _process(_delta):
@@ -41,18 +41,18 @@ func turnFlow():
 		1:
 			traps()
 		2:
-			go()
+			pass
 
 #//////////////Functions relating to stage 1: movement
 var spacesLeft = 3
 var storedMovement = []
+var placedTraps = []
 var selectorPos = boardPosition
 var init = false
 func movement():
 	if !init:
 		$squareSelector.global_position = global_position
 		selectorPos = boardPosition
-		print(selectorPos)
 		init = true
 	if spacesLeft>0:
 		var changes = squareMovement()
@@ -60,10 +60,9 @@ func movement():
 		squareSelection(changes)
 	if Input.is_action_just_pressed("return") and !storedMovement.is_empty():
 		goBack()
-	if (Input.is_action_just_pressed("select")):
+	if (Input.is_action_just_pressed("select") and spacesLeft == 0):
 		stage+=1
 		init = false
-		print("Moves performed: ",storedMovement)
 
 #Controls the actually selection of a movement space
 func squareSelection(changes):
@@ -72,12 +71,10 @@ func squareSelection(changes):
 		$squareSelector.global_position = boardRef.BtoW(boardPosition)
 		spacesLeft -= 1
 		storedMovement.append(changes)
-		print(storedMovement)
 		var arrowChanges = [changes,Vector2(0,0)]
 		if storedMovement.size()>1:
 			arrowChanges[1] = storedMovement[-2]
 		arrows.emit(arrowChanges,false)
-		print("Movement Left: ",spacesLeft)
 	else:
 		selectorPos -= changes
 
@@ -91,7 +88,6 @@ func goBack():
 	selectorPos -= reverse
 	spacesLeft +=1
 
-
 #//////////////Function for stage 2:Trap Selection
 var currentTrap = 3
 var trapsLeft = 3
@@ -102,13 +98,13 @@ func traps():
 		$squareSelector.global_position += changes*tileSize
 		if Input.is_action_just_pressed("select"):
 			placeTrap()
-			print("Traps Left: ",trapsLeft)
 	else:
 		stage += 1
-		print("Traps Placed: ", boardRef.Tiles.keys()[currentTrap])
+		go()
 	return
 
 func placeTrap():
+	placedTraps.append(selectorPos)
 	boardRef.updateLocation(currentTrap,selectorPos)
 	trapsLeft -= 1
 
@@ -143,25 +139,24 @@ func squareMovement():
 #//////////////PLay through the game
 var completed:bool = false
 func go():
-	if completed == true:
-		reset()
-		completed = false
-		print("New Turn")
-	else:
-		if boardRef.checkTile(boardPosition) == boardRef.Tiles.trap:
-			print("Trapped")
-		endOfTurn()
-		completed = true
+	gameRef.moves.post([storedMovement.duplicate(), placedTraps.duplicate()])
+	if boardRef.checkTile(boardPosition) == boardRef.Tiles.trap:
+		print("Trapped")
+	endOfTurn()
+	await boardRef.finishedTurn
+	print('New Turn')
+	reset()
 
 func reset():
 	trapsLeft = 3
 	spacesLeft = 3
 	stage=0
+	placedTraps = []
+	storedMovement = []
 
 func endOfTurn():
 	$Arrows.clear_layer(0)
 	$Arrows.pos = Vector2(0,0)
 	global_position = boardRef.BtoW(boardPosition)
-	storedMovement.clear()
 	$squareSelector.global_position=boardRef.BtoW(selectorPos)
 	boardRef.updateLocation(boardRef.Tiles.player,boardPosition)

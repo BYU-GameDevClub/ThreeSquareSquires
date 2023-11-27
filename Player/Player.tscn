@@ -11,7 +11,7 @@
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_gklks"]
 properties/0/path = NodePath("squareSelector:position")
 properties/0/spawn = true
-properties/0/sync = true
+properties/0/sync = false
 properties/0/watch = false
 
 [node name="Player" type="CharacterBody2D"]

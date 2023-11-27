@@ -75,14 +75,13 @@ func _on_settings_button_pressed(nodePath):
 	SettingsCancelButton.pressed.connect(_on_s_cancel_btn_pressed.bind(node))
 
 func game_start():
-	print('starting the game...')
 	var game = preload("res://FullGame/FullGame.tscn").instantiate()
 	add_sibling(game)
 	for id in Network.get_connected_ips():
 		if id == 1:
-			game.player1.RegisterPlayer(id)
+			game.player1.RegisterPlayer(id, game.player2)
 		else:
-			game.player2.RegisterPlayer(id)
+			game.player2.RegisterPlayer(id, game.player1)
 	call_deferred("free")
 
 

@@ -50,11 +50,10 @@ func host_network():
 	return true
 
 func host_local():
-	print(OS.get_environment('HOSTNAME'), OS.get_environment('hostname'), OS)
 	if OS.has_feature("windows") && OS.has_environment("COMPUTERNAME"):
-		hostIP = IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")),1)
+		hostIP = IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")), IP.TYPE_IPV4)
 	elif OS.has_environment("HOSTNAME"):
-		hostIP = IP.resolve_hostname(str(OS.get_environment("HOSTNAME")),1)
+		hostIP = IP.resolve_hostname(str(OS.get_environment("HOSTNAME")), IP.TYPE_IPV4)
 	else:
 		hostIP = IP.get_local_addresses()[0]
 	status = LAN_HOST
@@ -82,6 +81,8 @@ func get_address():
 	return hostIP
 func get_connected_ips():
 	return connectedIPs
+func get_id():
+	return multiplayer.get_unique_id()
 
 func quick_connect():
 	host_local()
