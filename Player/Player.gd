@@ -137,14 +137,13 @@ func squareMovement():
 
 
 #//////////////PLay through the game
-var completed:bool = false
 func go():
-	gameRef.moves.post([storedMovement.duplicate(), placedTraps.duplicate()])
+	await gameRef.moves.post([storedMovement.duplicate(), placedTraps.duplicate()])
+	print(Network.get_id(),': New Turn')
 	if boardRef.checkTile(boardPosition) == boardRef.Tiles.trap:
 		print("Trapped")
 	endOfTurn()
-	await boardRef.finishedTurn
-	print('New Turn')
+	# await boardRef.finishedTurn
 	reset()
 
 func reset():

@@ -25,25 +25,19 @@ func create2dArray(height,width):
 @onready var tileSize = $Tiles.tile_set.tile_size.x*$Tiles.scale.x
 var board = create2dArray(boardHeight,boardWidth)
 var otherPlayer
-signal finishedTurn
-signal finishedMove
-@rpc("any_peer")
 func make_moves(moves, other_moves, enemeyTraps):
 	if (!is_multiplayer_authority()): return
-	print('I moved ',moves,' they moved ', other_moves,' they placed traps @', enemeyTraps)
+	print(Network.get_id(),': I moved ',moves,' they moved ', other_moves,' they placed traps @', enemeyTraps)
 	# DEAL WITH OTHER PLAYER
 	for i in range(len(moves)):
+		print('%d: %d'%[Network.get_id(), i])
 		var _myMove = moves[i]
 		var _oponentMove = other_moves[i]
-		
-		get_parent().hasMoved.post(true)
-		await finishedMove
-	finishedTurn.emit()
-
-@rpc("any_peer")
-func made_move():
-	if (!is_multiplayer_authority()): return
-	finishedMove.emit()
+		if (Network.get_id() == 1):
+			await get_tree().create_timer(1).timeout
+		await get_parent().hasMoved.post()
+		print(Network.get_id(),': move %d finished' % i)
+	print(Network.get_id(),': finished turn')
 func _ready():
 	for i in boardHeight:
 		board[0][i]=Tiles.wall
