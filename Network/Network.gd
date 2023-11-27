@@ -8,7 +8,7 @@ signal game_start
 
 var _upnp = UPNP.new()
 var multi_peer = ENetMultiplayerPeer.new()
-var connectedIPs = []
+var connectedIDs = []
 
 func tree_exiting():
 	if status == UNPN_HOST:
@@ -60,8 +60,8 @@ func host_local():
 	return true
 
 func add_player_character(id=1):
-	connectedIPs.append(id)
-	if len(connectedIPs) == 2: rpc("start_game", connectedIPs)
+	connectedIDs.append(id)
+	if len(connectedIDs) == 2: rpc("start_game", connectedIDs)
 
 func cancel():
 	if DISCONNECTED: return
@@ -79,10 +79,12 @@ func set_port(num):
 	port = num
 func get_address():
 	return hostIP
-func get_connected_ips():
-	return connectedIPs
+func get_connected_ids():
+	return connectedIDs
 func get_id():
 	return multiplayer.get_unique_id()
+func is_host():
+	return multiplayer.get_unique_id() == 1
 
 func quick_connect():
 	host_local()
@@ -98,6 +100,6 @@ func quick_connect():
 
 @rpc("call_local")
 func start_game(playerIds):
-	connectedIPs = playerIds
+	connectedIDs = playerIds
 	game_start.emit()
 

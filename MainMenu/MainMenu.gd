@@ -77,7 +77,7 @@ func _on_settings_button_pressed(nodePath):
 func game_start():
 	var game = preload("res://FullGame/FullGame.tscn").instantiate()
 	add_sibling(game)
-	for id in Network.get_connected_ips():
+	for id in Network.get_connected_ids():
 		if id == 1:
 			game.player1.RegisterPlayer(id, game.player2)
 		else:

@@ -24,7 +24,9 @@ func create2dArray(height,width):
 @export var boardWidth = 22
 @onready var tileSize = $Tiles.tile_set.tile_size.x*$Tiles.scale.x
 var board = create2dArray(boardHeight,boardWidth)
-var otherPlayer
+var otherBoard
+@onready var tileMap:TileMap = $Tiles
+@onready var player = $Player
 func make_moves(moves, other_moves, enemeyTraps):
 	if (!is_multiplayer_authority()): return
 	print(Network.get_id(),': I moved ',moves,' they moved ', other_moves,' they placed traps @', enemeyTraps)
@@ -33,7 +35,8 @@ func make_moves(moves, other_moves, enemeyTraps):
 		print('%d: Move #%d'%[Network.get_id(), i+1])
 		var _myMove = moves[i]
 		var _oponentMove = other_moves[i]
-		# if (Network.get_id() == 1): await get_tree().create_timer(1).timeout
+		otherBoard.player.boardPosition += other_moves[i]
+		if (Network.is_host()): await get_tree().create_timer(1).timeout
 		await get_parent().hasMoved.post()
 func _ready():
 	for i in boardHeight:
@@ -49,7 +52,7 @@ func RegisterPlayer(id, other):
 	if (id != Network.get_id()):
 		# Code to set differences
 		$Player/squareSelector.visible = false
-	otherPlayer = other
+	otherBoard = other
 	$Player.ready_player()
 
 #For updating different location during the game loop
