@@ -15,5 +15,5 @@ func _make_moves(playerMoves):
 	var player1traps = playerMoves[0][1]
 	var player2moves = playerMoves[1][0]
 	var player2traps = playerMoves[1][1]
-	await player1.make_moves(player1moves, player2moves, player2traps)
-	await player2.make_moves(player2moves, player1moves, player1traps)
+	await player1.make_moves(player1moves, player2moves, player1traps, player2traps)
+	await player2.make_moves(player2moves, player1moves, player2traps, player1traps)

@@ -1,66 +1,98 @@
 extends Node2D
+class_name PlayerBoard
 
 #For specifying what is put on the board spaces
-#More can be added later
-enum Tiles{
-	empty,
-	player,
-	wall,
-	trap
+enum TileLayer {
+	BACKGROUND		= 0,
+	DECORATION		= 1,
+	PLAYER			= 2,
+	TRAPS_HIDDEN	= 3,
+	TRAPS_VISIBLE	= 4,
+	BOOST_HIDDEN	= 5,
+	BOOST_VISIBLE	= 6,
+	GHOST			= 7
 }
-
-#Just to make a 2dArray
-func create2dArray(height,width):
-	var a = []
-	for x in range(width):
-		a.append([])
-		a[x].resize(height)
-		for y in range(height):
-			a[x][y] = Tiles.empty
-	return a
-	
+enum Tile {
+	BACKGROUND	= 0,
+	WALL		= 1,
+	SPIKE_TRAP	= 2,
+	PIT_TRAP	= 3,
+	SPRING_PAD 	= 4,
+}
+var tile_to_vec = {
+	Tile.BACKGROUND:Vector2i(0,6),
+	Tile.WALL:		Vector2i(6,2),
+	Tile.SPIKE_TRAP:Vector2i(4,6),
+	Tile.PIT_TRAP:	Vector2i(7,1),
+	Tile.SPRING_PAD:Vector2i(6,5)
+}
+#region CONSTANTS
 #Variables related to the board and size
-@export var boardHeight = 9
-@export var boardWidth = 22
-@onready var tileSize = $Tiles.tile_set.tile_size.x*$Tiles.scale.x
-var board = create2dArray(boardHeight,boardWidth)
-var otherPlayer
-func make_moves(moves, other_moves, enemeyTraps):
+const BOARD_HEIGHT = 9
+const BOARD_WIDTH = 22
+@onready var TILE_SIZE = $Tiles.tile_set.tile_size.x*$Tiles.scale.x
+const TRAPS = [Tile.SPIKE_TRAP, Tile.PIT_TRAP]
+const BOOSTS = [Tile.SPRING_PAD]
+#endregion CONSTANTS
+@onready var tile_map:TileMap = $Tiles
+@onready var player = $Player
+var other_board
+func make_moves(moves, other_moves, your_traps, enemey_traps):
 	if (!is_multiplayer_authority()): return
-	print(Network.get_id(),': I moved ',moves,' they moved ', other_moves,' they placed traps @', enemeyTraps)
-	# DEAL WITH OTHER PLAYER
+	$Player/Arrows.clear_layer(0)
+	print(Network.get_id(),': I moved ',moves,' they moved ', other_moves)
+	print('they placed traps @', enemey_traps, ' you placed@', your_traps)
+	for trap_info in enemey_traps:
+		set_tile(trap_info[0], trap_info[1], TileLayer.TRAPS_HIDDEN)
+	for trap_info in your_traps:
+		other_board.set_tile(trap_info[0], trap_info[1], TileLayer.TRAPS_HIDDEN)
+	await get_parent().hasMoved.post()
 	for i in range(len(moves)):
 		print('%d: Move #%d'%[Network.get_id(), i+1])
-		var _myMove = moves[i]
-		var _oponentMove = other_moves[i]
-		# if (Network.get_id() == 1): await get_tree().create_timer(1).timeout
+		player.move(moves[i])
+		other_board.player.move( other_moves[i])
+		if (Network.is_host()): await get_tree().create_timer(1).timeout
 		await get_parent().hasMoved.post()
-func _ready():
-	for i in boardHeight:
-		board[0][i]=Tiles.wall
-		board[boardWidth-1][i]=Tiles.wall
-	for i in boardWidth:
-		board[i][0]=Tiles.wall
-		board[i][boardHeight-1]=Tiles.wall
 
 func RegisterPlayer(id, other):
 	name = str(id)
 	set_multiplayer_authority(id)
+	other_board = other
 	if (id != Network.get_id()):
-		# Code to set differences
+		tile_map.set_layer_modulate(TileLayer.TRAPS_HIDDEN, Color.html("#FFFFFFAA"))
+		tile_map.set_layer_modulate(TileLayer.BOOST_HIDDEN, Color.html("#FFFFFFAA"))
 		$Player/squareSelector.visible = false
-	otherPlayer = other
+	else:
+		$Player.process_mode = Node.PROCESS_MODE_INHERIT
 	$Player.ready_player()
 
-#For updating different location during the game loop
-func updateLocation(type,Coord):
-	board[Coord.x][Coord.y]=type
+func set_tile(coord:Vector2i,type:Tile,layer:TileLayer):
+	tile_map.set_cell(layer,coord,0,tile_to_vec[type])
 
-func checkTile(coord):
-	return board[coord.x][coord.y]
+func is_wall(coord:Vector2i):
+	return tile_map.get_cell_atlas_coords(TileLayer.BACKGROUND, coord) == tile_to_vec[Tile.WALL]
+
+func is_trap(coord:Vector2i):
+	for trap in TRAPS:
+		if tile_map.get_cell_atlas_coords(TileLayer.TRAPS_HIDDEN, coord) == tile_to_vec[trap]:
+			return true
+		if tile_map.get_cell_atlas_coords(TileLayer.TRAPS_VISIBLE, coord) == tile_to_vec[trap]:
+			return true
+	return false
+
+func is_boost(coord:Vector2i):
+	for boost in BOOSTS:
+		if tile_map.get_cell_atlas_coords(TileLayer.BOOST_HIDDEN, coord) == tile_to_vec[boost]:
+			return true
+		if tile_map.get_cell_atlas_coords(TileLayer.BOOST_VISIBLE, coord) == tile_to_vec[boost]:
+			return true
+	return false
+
+func reveal_tile(coord:Vector2i):
+	return
 
 func BtoW(_board):
-	var new = Vector2()
-	new.x = _board.x*tileSize+tileSize/2+global_position.x
-	new.y = _board.y*tileSize+tileSize/2+global_position.y
-	return new
+	return tile_map.to_global(tile_map.map_to_local(_board))
+func clear_ghosts():
+	tile_map.clear_layer(TileLayer.GHOST)
+	other_board.tile_map.clear_layer(TileLayer.GHOST)

@@ -20,25 +20,15 @@ class _Mutex extends Node:
 	var _vals
 	var _max = 2
 	var _set_count = 0
-	var _bound = false
 	var complete = func():pass
 	signal _signal
-	signal _unbound
 	func _init(key, onComplete) -> void:
 		self._id = key
 		self.complete = onComplete
 		self.name = str(_id)
 		self._reset()
-	func _wait():
-		if _bound: await _unbound
-		_bound = true
-	func _unwait():
-		_bound = false
-		call_deferred('emit_signal', '_unbound')
 	func post(val = true):
-		await _wait()
-		NetMutex.rpc('_set_val', _id, int(Network.get_id()!=1), val)
-		_unwait()
+		NetMutex.rpc.call_deferred('_set_val', _id, int(!Network.is_host()), val)
 		await _signal
 	func reset():
 		NetMutex.rpc('_reset', _id) 
@@ -50,9 +40,7 @@ class _Mutex extends Node:
 		_signal.emit()
 		_reset()
 	func _set_val(idx, val):
-		await _wait()
 		_set_count+= 1
 		_vals[idx] = val
 		if _set_count == _max: _rollover()
-		_unwait()
 
