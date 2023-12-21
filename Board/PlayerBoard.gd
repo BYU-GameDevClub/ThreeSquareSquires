@@ -89,7 +89,10 @@ func is_boost(coord:Vector2i):
 	return false
 
 func reveal_tile(coord:Vector2i):
-	return
+	var trap_hidden:Vector2i = tile_map.get_cell_atlas_coords(TileLayer.TRAPS_HIDDEN, coord)
+	if trap_hidden != Vector2i(-1, -1):
+		tile_map.set_cell(TileLayer.TRAPS_HIDDEN,coord)
+		tile_map.set_cell(TileLayer.TRAPS_VISIBLE,coord,0,trap_hidden)
 
 func BtoW(_board):
 	return tile_map.to_global(tile_map.map_to_local(_board))

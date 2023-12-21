@@ -148,7 +148,7 @@ func reset():
 func move(dir):
 	boardPosition += dir
 	global_position = boardRef.BtoW(boardPosition)
+	boardRef.reveal_tile(boardPosition)
 	if boardRef.is_trap(boardPosition):
-		boardRef.reveal_tile(boardPosition)
 		print("TRIGGERED TRAP")
 	
